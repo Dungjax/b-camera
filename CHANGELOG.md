@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.2] — 2026-11-06
+
+### Changed
+- Refactored the monolithic `__init__.py` into focused modules for shared helpers, properties, rig operators, target transitions, turntable, damping, UI, and registration.
+- Kept the package entry point thin; centralized Blender class registration and added rollback if registration fails partway through.
+- Preserved existing operator identifiers, property names, constraint names, and intended user-facing behavior.
+- Updated project documentation to describe the modular architecture and dependency boundaries.
+
+
 All notable changes recorded for Camera Focus Rig are listed here. This changelog reflects the project history available from the supplied packages and development conversation; dates for earlier releases were not retained.
 
 ## [1.2.1] — 2026-11 project state

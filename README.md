@@ -1,11 +1,11 @@
-# Camera Focus Rig 1.2.1
+# Camera Focus Rig 1.2.2
 
 Camera Focus Rig is a Blender add-on for a camera controller rig with local camera Roll, automatic turntables, animated transitions between multiple focus Targets, and baked position/rotation damping.
 
 ## Install
 
 1. In Blender, open **Edit → Preferences → Get Extensions → Install from Disk** (or **Install from Disk** in the Add-ons section, depending on the Blender build).
-2. Select `camera_focus_rig_1.2.1.zip`.
+2. Select `camera_focus_rig_1.2.2.zip`.
 3. Enable **Camera Focus Rig**.
 4. Open the 3D View sidebar with `N` and choose the **Camera Rig** tab.
 
@@ -72,3 +72,18 @@ Rigs made with version 1.0 can be migrated using **Upgrade Rig for Roll & Animat
 - Designed for Blender 4.2+ and Blender 5.2.
 - Uses Blender 5.x layered Action channel-bag access when available, with a fallback for older Action F-Curve APIs.
 - Blender 5.2 UI icons use supported enum values (the unsupported `ORBIT` icon from earlier builds was replaced).
+
+
+## Source layout
+
+The implementation is split by responsibility so that the package entry point remains small:
+
+- `__init__.py`: add-on metadata and public `register()` / `unregister()` entry points.
+- `registration.py`: class registration order and `Object.cfr` property registration.
+- `constants.py`: stable constraint identifiers.
+- `helpers.py`: shared rig, transform, and animation helpers.
+- `properties.py`: Blender PropertyGroups and property update callbacks.
+- `operators/`: feature operators grouped into rig, target sequence, turntable, and damping modules.
+- `ui/panel.py`: 3D View sidebar panel.
+
+This 1.2.2 update reorganizes the source without intending to change user-facing rig behavior.
