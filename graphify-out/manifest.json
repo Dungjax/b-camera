@@ -1,0 +1,87 @@
+{
+  ".codex/hooks.json": {
+    "mtime": 1793956244.5627248,
+    "seen": 1793956970.9653022,
+    "ast_hash": "5ebef3dd159986e465ab65e4014107ec",
+    "semantic_hash": "5ebef3dd159986e465ab65e4014107ec",
+    "ast_empty": true
+  },
+  "__init__.py": {
+    "mtime": 1793956080.3992722,
+    "seen": 1793956970.9653022,
+    "ast_hash": "976774497cca6c38dc8df3d577983b19",
+    "semantic_hash": "976774497cca6c38dc8df3d577983b19"
+  },
+  "constants.py": {
+    "mtime": 1793956080.4002802,
+    "seen": 1793956970.9653022,
+    "ast_hash": "3d4502519561d6e1b1fe2a5f8ae41583",
+    "semantic_hash": "3d4502519561d6e1b1fe2a5f8ae41583"
+  },
+  "helpers.py": {
+    "mtime": 1793956080.400796,
+    "seen": 1793956970.9653022,
+    "ast_hash": "263033c2d8e07302e5a21e8f2e2fa8e1",
+    "semantic_hash": "263033c2d8e07302e5a21e8f2e2fa8e1"
+  },
+  "operators/__init__.py": {
+    "mtime": 1793956080.4014008,
+    "seen": 1793956970.9653022,
+    "ast_hash": "98892f430ad989dec978ea0bd043be2e",
+    "semantic_hash": "98892f430ad989dec978ea0bd043be2e"
+  },
+  "operators/base.py": {
+    "mtime": 1793956080.4014008,
+    "seen": 1793956970.9663036,
+    "ast_hash": "98dc71914e9bf5de270eaae19bb9f722",
+    "semantic_hash": "98dc71914e9bf5de270eaae19bb9f722"
+  },
+  "operators/damping.py": {
+    "mtime": 1793956080.4014008,
+    "seen": 1793956970.9663036,
+    "ast_hash": "dcf175e23e1acdea66509588d1a97bfc",
+    "semantic_hash": "dcf175e23e1acdea66509588d1a97bfc"
+  },
+  "operators/rig.py": {
+    "mtime": 1793956080.4024048,
+    "seen": 1793956970.9663036,
+    "ast_hash": "9ab7087fb89d0a854154dc635c336ce4",
+    "semantic_hash": "9ab7087fb89d0a854154dc635c336ce4"
+  },
+  "operators/targets.py": {
+    "mtime": 1793956080.402778,
+    "seen": 1793956970.9663036,
+    "ast_hash": "3a684954a864991ffa515df811df972a",
+    "semantic_hash": "3a684954a864991ffa515df811df972a"
+  },
+  "operators/turntable.py": {
+    "mtime": 1793956080.402778,
+    "seen": 1793956970.9663036,
+    "ast_hash": "126381278bd72497e6834afbc20e514f",
+    "semantic_hash": "126381278bd72497e6834afbc20e514f"
+  },
+  "properties.py": {
+    "mtime": 1793956080.402778,
+    "seen": 1793956970.9663036,
+    "ast_hash": "0b5cd7b004b85eb6011ff3ddfbf09bd3",
+    "semantic_hash": "0b5cd7b004b85eb6011ff3ddfbf09bd3"
+  },
+  "registration.py": {
+    "mtime": 1793956080.403786,
+    "seen": 1793956970.9663036,
+    "ast_hash": "0449dce1033866e12a0a353ddead545a",
+    "semantic_hash": "0449dce1033866e12a0a353ddead545a"
+  },
+  "ui/__init__.py": {
+    "mtime": 1793956080.403786,
+    "seen": 1793956970.9673035,
+    "ast_hash": "8dd7fc765c18846b730ee0a224e6bbdc",
+    "semantic_hash": "8dd7fc765c18846b730ee0a224e6bbdc"
+  },
+  "ui/panel.py": {
+    "mtime": 1793956080.403786,
+    "seen": 1793956970.9673035,
+    "ast_hash": "110650884f15c687224ecdd8a393af79",
+    "semantic_hash": "110650884f15c687224ecdd8a393af79"
+  }
+}
