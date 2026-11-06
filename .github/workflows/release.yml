@@ -10,38 +10,59 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Package addon
+      - name: Install Blender
+        uses: bradyajohnston/setup-blender@v5
+        with:
+          version: "4.2"
+
+      - name: Prepare addon package
+        shell: bash
         run: |
           set -e
 
-          mkdir -p b_camera
+          mkdir -p package dist
 
-          # Copy addon source files
-          cp __init__.py b_camera/
-          cp blender_manifest.toml b_camera/
-          cp registration.py b_camera/
-          cp constants.py b_camera/
-          cp helpers.py b_camera/
-          cp properties.py b_camera/
+          # Root addon files
+          cp __init__.py package/
+          cp blender_manifest.toml package/
+          cp registration.py package/
+          cp constants.py package/
+          cp helpers.py package/
+          cp properties.py package/
 
-          # Copy addon modules
-          cp -r operators b_camera/
-          cp -r ui b_camera/
+          # Addon modules
+          cp -r operators package/
+          cp -r ui package/
 
-          # Remove Python cache files
-          find b_camera -type d -name "__pycache__" -prune -exec rm -rf {} +
-          find b_camera -type f -name "*.pyc" -delete
+          # Remove Python cache
+          find package -type d -name "__pycache__" -prune -exec rm -rf {} +
+          find package -type f -name "*.pyc" -delete
 
-          # Create ZIP
-          zip -r "b-camera-${GITHUB_REF_NAME}.zip" b_camera
+      - name: Validate addon source
+        run: blender --command extension validate package
 
-      - name: Upload ZIP to GitHub Release
+      - name: Build Blender Extension
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          blender --command extension build \
+            --source-dir package \
+            --output-filepath "dist/b-camera-${RELEASE_TAG}.zip"
+
+      - name: Validate release ZIP
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          blender --command extension validate \
+            "dist/b-camera-${RELEASE_TAG}.zip"
+
+      - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: b-camera-${{ github.event.release.tag_name }}.zip
+          files: dist/b-camera-${{ github.event.release.tag_name }}.zip
