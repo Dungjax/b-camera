@@ -1,0 +1,47 @@
+
+name: Build B-Camera Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package addon
+        run: |
+          set -e
+
+          mkdir -p b_camera
+
+          # Copy addon source files
+          cp __init__.py b_camera/
+          cp blender_manifest.toml b_camera/
+          cp registration.py b_camera/
+          cp constants.py b_camera/
+          cp helpers.py b_camera/
+          cp properties.py b_camera/
+
+          # Copy addon modules
+          cp -r operators b_camera/
+          cp -r ui b_camera/
+
+          # Remove Python cache files
+          find b_camera -type d -name "__pycache__" -prune -exec rm -rf {} +
+          find b_camera -type f -name "*.pyc" -delete
+
+          # Create ZIP
+          zip -r "b-camera-${GITHUB_REF_NAME}.zip" b_camera
+
+      - name: Upload ZIP to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: b-camera-${{ github.event.release.tag_name }}.zip
