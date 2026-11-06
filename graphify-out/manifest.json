@@ -83,5 +83,35 @@
     "seen": 1793956970.9673035,
     "ast_hash": "110650884f15c687224ecdd8a393af79",
     "semantic_hash": "110650884f15c687224ecdd8a393af79"
+  },
+  "AGENTS.md": {
+    "mtime": 1793959359.3529923,
+    "seen": 1793959935.485446,
+    "ast_hash": "f470939c0168178839a213ac8064fafc",
+    "semantic_hash": "f470939c0168178839a213ac8064fafc"
+  },
+  "CHANGELOG.md": {
+    "mtime": 1793956080.3977647,
+    "seen": 1793959935.485446,
+    "ast_hash": "772e49457181954c8d352caeaf4d0eee",
+    "semantic_hash": "772e49457181954c8d352caeaf4d0eee"
+  },
+  "PROJECT_CONTEXT.md": {
+    "mtime": 1793956080.3977647,
+    "seen": 1793959935.485446,
+    "ast_hash": "27aa81b711805630656305770c8e12c1",
+    "semantic_hash": "27aa81b711805630656305770c8e12c1"
+  },
+  "README.md": {
+    "mtime": 1793956080.3977647,
+    "seen": 1793959935.485446,
+    "ast_hash": "d785d8739de5be00a471516d12bfc450",
+    "semantic_hash": "d785d8739de5be00a471516d12bfc450"
+  },
+  "TASKS.md": {
+    "mtime": 1793956080.3992722,
+    "seen": 1793959935.485446,
+    "ast_hash": "ec23040b0d5a8e89de34e557a1b72733",
+    "semantic_hash": "ec23040b0d5a8e89de34e557a1b72733"
   }
 }
