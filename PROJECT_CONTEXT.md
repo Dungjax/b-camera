@@ -5,16 +5,16 @@
 ## 1. Project identity
 
 - **Project:** Camera Focus Rig
-- **Current documented version:** `1.2.1`
+- **Current documented version:** `1.2.2`
 - **Type:** Blender Python add-on / Blender Extension package
 - **Extension ID:** `camera_focus_rig`
 - **Minimum Blender version in manifest:** `4.2.0`
 - **Primary target for development and user reports:** Blender `5.2`
 - **License declared in manifest:** `GPL-3.0-or-later`
-- **Current implementation layout:** one main Python module (`__init__.py`), `blender_manifest.toml`, and `README.md` at the ZIP root.
+- **Current implementation layout:** modular Python package with a thin `__init__.py` entry point, `blender_manifest.toml`, and `README.md` at the ZIP root.
 - **Last project state reviewed for this document:** 2026-11-06.
 
-The authoritative implementation for this context is the `camera_focus_rig_1.2.1.zip` package. Do not assume that a later version exists unless the repository or user supplies it.
+The authoritative implementation for this context is the refactored `camera_focus_rig_1.2.2.zip` package. Do not assume that a later version exists unless the repository or user supplies it.
 
 ## 2. Product goal
 
@@ -60,7 +60,7 @@ Keep these names stable unless there is a deliberate migration plan:
 
 `CFR_Props` is registered as `bpy.types.Object.cfr`. Important references include `camera`, `mover`, `focus_anchor`, `damping_pivot`, `target`, and `target_slots`. The camera owns the authoritative rig settings; helper objects also keep back-references where required by selection and discovery logic.
 
-## 4. Implemented feature set (version 1.2.1)
+## 4. Implemented feature set (version 1.2.2; behavior retained from 1.2.1)
 
 ### Rig creation and maintenance
 
@@ -120,27 +120,46 @@ Keep these names stable unless there is a deliberate migration plan:
 4. The Pivot custom properties and the two named markers describe the most recent bake operation, not a complete registry of every disjoint baked interval.
 5. Changing Scene FPS after baking changes the real-time interpretation of frame-based baked motion; rebake after FPS changes.
 
-## 5. Main source structure
+## 5. Main source structure (version 1.2.2)
 
-The current package keeps implementation in `__init__.py`. Important areas:
+The implementation is split into modules by responsibility. Keep the root `__init__.py` thin; it should only expose add-on metadata and import the public registration functions.
 
-- **Helpers:** rig discovery, parenting, Focus Point creation, constraint wiring, action/F-Curve compatibility, transform sampling, key insertion/removal, Timeline markers.
-- **Property groups:** `CFR_TargetItem`, `CFR_Props`.
-- **Operators:**
-  - `cfr.create_rig`
-  - `cfr.upgrade_rig`
-  - `cfr.frame_target`
-  - `cfr.mover_to_view`
-  - `cfr.select_part`
-  - `cfr.reset_focus`
-  - `cfr.add_target`, `cfr.remove_target`, `cfr.move_target`
-  - `cfr.transition_targets`
-  - `cfr.turntable`
-  - `cfr.setup_damping`, `cfr.damping_scene_range`, `cfr.bake_damping`, `cfr.clear_damping`
-  - `cfr.reset_roll`
-  - `cfr.remove_rig`
-- **UI:** `CFR_PT_panel` in the 3D View sidebar, tab `Camera Rig`.
-- **Registration:** `classes` tuple, `register()`, and `unregister()`.
+```text
+b-camera/
+├── __init__.py
+├── blender_manifest.toml
+├── registration.py
+├── constants.py
+├── helpers.py
+├── properties.py
+├── operators/
+│   ├── __init__.py
+│   ├── base.py
+│   ├── rig.py
+│   ├── targets.py
+│   ├── turntable.py
+│   └── damping.py
+├── ui/
+│   ├── __init__.py
+│   └── panel.py
+├── README.md
+├── PROJECT_CONTEXT.md
+├── CHANGELOG.md
+└── TASKS.md
+```
+
+- `constants.py`: stable constraint names (`CFR_TrackTo`, `CFR_LimitDistance`, `CFR_FollowTarget`).
+- `helpers.py`: shared rig discovery/creation, parenting, constraints, F-Curve compatibility, transform sampling, key insertion/removal, and Timeline marker helpers. It must not import UI or operator modules.
+- `properties.py`: `CFR_TargetItem`, `CFR_Props`, and property update callbacks.
+- `operators/base.py`: non-registered `_RigOperator` poll mixin.
+- `operators/rig.py`: create/upgrade/frame/snap/select/reset-roll/remove-rig operators.
+- `operators/targets.py`: target list and target-transition operators.
+- `operators/turntable.py`: turntable operator.
+- `operators/damping.py`: damping setup, range, bake, and clear operators.
+- `ui/panel.py`: `CFR_PT_panel`.
+- `registration.py`: dependency-ordered registration and rollback if registration fails partway through.
+
+Dependency direction should remain one-way: constants/helpers → properties and operators → UI → registration. Shared helpers must not import operators or UI. Keep `_RigOperator` out of the registered class tuple.
 
 Important property names include `damping_position_enabled`, `damping_rotation_enabled`, `damping_position_time`, `damping_rotation_time`, `damping_start_frame`, `damping_end_frame`, `turntable_frames`, `turntable_revolutions`, `turntable_axis`, `turntable_loop`, `turntable_replace`, `transition_frames`, and `transition_interpolation`.
 
@@ -175,9 +194,9 @@ For each change:
 5. When Blender is available, install and test in the actual minimum supported version and Blender 5.2. Exercise create, edit, animate, bake, clear, upgrade, and remove workflows.
 6. Update docs and add test cases/results to `TASKS.md`.
 
-## 8. Known validation limitation at version 1.2.1
+## 8. Known validation limitation at version 1.2.2
 
-The source and ZIP structure have been inspected, but no live Blender runtime test result is recorded for version 1.2.1. Static Python compilation and archive checks are not substitutes for opening Blender, registering the add-on, drawing the panel, and executing operators. Treat Blender 4.2 and 5.2 runtime compatibility as **pending verification** until actual runtime test results are recorded.
+The source and ZIP structure have been inspected, but no live Blender runtime test result is recorded for version 1.2.2. Static Python compilation and archive checks are not substitutes for opening Blender, registering the add-on, drawing the panel, and executing operators. Treat Blender 4.2 and 5.2 runtime compatibility as **pending verification** until actual runtime test results are recorded. The refactor has additionally passed Python compilation, relative-import resolution, a Blender API stub import/register/unregister smoke test, and archive integrity checks.
 
 ## 9. Proposed direction (not implemented)
 
